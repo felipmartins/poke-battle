@@ -23,20 +23,21 @@ class Move(models.Model):
     def __str__(self):
         return self.name
 
-class Pokemon(models.Model):
+class ModelsPokemon(models.Model):
     name = models.CharField(max_length=50)
     height = models.FloatField()
     weight = models.FloatField()
-    sprite = models.ImageField()
+    sprite = models.ImageField(upload_to='pokemon_data/static/pokemon')
     type_1 = models.ForeignKey(Type, on_delete=models.CASCADE, related_name='type1')
-    type_2 = models.ForeignKey(Type, on_delete=models.CASCADE, related_name='type2')
+    type_2 = models.ForeignKey(Type, on_delete=models.CASCADE, null=True, blank=True, related_name='type2')
     move_set = models.JSONField(default=dict)
     move = models.CharField(max_length=50, default='pound')
     hp = models.IntegerField()
     attack = models.IntegerField()
     defense = models.IntegerField()
     special_attack = models.IntegerField()
-    special_attack = models.IntegerField()
+    special_defense = models.IntegerField(default=0, null=True)
     speed = models.IntegerField()
 
-
+    def __str__(self):
+        return self.name

@@ -1,3 +1,4 @@
+from os import stat
 import grequests
 from time import sleep
 
@@ -90,7 +91,6 @@ def get_pokemon_data():
         poke_json = response.json()
         poke_dict['name'] = poke_json['name']
         poke_dict['height'] = poke_json['height']/10
-        print(poke_dict['name'])
         poke_dict['sprite'] = poke_json['sprites']['front_default']
         poke_dict['weight'] = poke_json['weight']/10
 
@@ -100,8 +100,11 @@ def get_pokemon_data():
         for elem in poke_json['moves']:
             poke_dict['moves'].append(elem['move']['name'])
         
+        stat_dict = {}
         for elem in poke_json['stats']:
-            poke_dict['stats'].append({elem['stat']['name']: elem['base_stat']})
+            stat_dict[elem['stat']['name']] = elem['base_stat']
+            
+        poke_dict['stats'].append(stat_dict)
 
         result_json.append(poke_dict)
     
